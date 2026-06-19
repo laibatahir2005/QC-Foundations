@@ -1,0 +1,190 @@
+
+import numpy as np
+
+from random import randrange
+
+
+# Dirac Notation(bra-ket)
+
+#a ket vector by-default
+w= [complex(3,4),
+    complex(-5,0),
+    complex(2,-1),
+    complex(0,6),
+    complex(-0.3,-3)]
+
+w_transpose = []
+
+for i in range(len(w)):
+    w_transpose.append(w[i].conjugate())
+    
+print("ket |w> :")
+for i in range(len(w)):
+    print(w[i])
+# for loop is used to help visualize a ket/column vector vertically.   
+
+print("bra <w| : ", w_transpose)
+
+# 2.1.1:Coin Flipping
+
+# flippping a fair coin
+
+
+for experiment in [1000,1000,10000,100000]:
+    heads=tails=0
+    for i in range(experiment):
+        if randrange(2)==0:
+            heads = heads+1
+        else:
+            tails= tails +1
+    print("experiment:",experiment)
+    print("head=",heads," tail= ",tails)
+    print()
+
+# flippng a biased coin
+
+for experiment in [100,1000,10000,100000]:
+    heads=tails=0
+    for i in range(experiment):
+        if randrange(100)<60:
+            heads = heads + 1
+        else:
+            tails = tails + 1
+    print("experiment:",experiment)
+    print(("head= ",heads,"tails= ",tails))
+    print()
+
+    
+# N: number of times, coin is flipped
+# B: probability of geting heads
+
+def biased_coin(N,B):
+    heads=tails=0
+    for experiment in range(N):
+        if(randrange(N)<B):
+            heads=heads+1
+        else:
+            tails=tails+1
+    print("experiment:",N)
+    print("heads: ",heads,"tails: ",tails)
+    print()
+biased_coin(1000,550)
+
+#Basic Head Tail Coin Flip Game Function
+def coin_flip(N,B):
+     random_num= randrange(N)
+     if(random_num < B):
+         print("Head.")
+     else:
+        print("Tail.")
+
+coin_flip(1,0.5)
+
+#calculating value of B experimentally
+
+N= 1000
+B= randrange(N+1)
+
+tot_heads=0
+tot_tosses=500
+
+for i in range(tot_tosses):
+    if coin_flip(N,B)=="Heads":
+        tot_heads= tot_heads + 1
+
+my_guess= tot_heads/tot_tosses
+real_bias= B/N
+
+print("my_guess",my_guess)
+print("real_bias",real_bias)
+      
+      
+# 2.1.2:Coin flipping game
+
+print("Initial Conditions: head on one coin.")
+
+
+prob_head=1
+prob_tail=0
+
+iterations=3
+
+for i in range(iterations):
+    new_prob_head= prob_head*0.6 + prob_tail*0.4
+    new_prob_tail= prob_head*0.4 + prob_tail*0.7
+
+print("probability of getting head after ",iterations, "tosses is: ",new_prob_head)
+print("probability of getting tail after ",iterations, "tosses is: ",new_prob_tail)
+
+iterations=[10,20,50]
+
+for i in iterations:
+    new_prob_head= prob_head*0.6 + prob_tail*0.4
+    new_prob_tail= prob_head*0.4 + prob_tail*0.7
+    print("probability of getting head after ",i, "tosses is: ",new_prob_head)
+    print("probability of getting tail after ",i, "tosses is: ",new_prob_tail)
+    print()
+
+iterations=3
+
+prob_head=0
+prob_tail=1
+
+for i in range(iterations):
+    new_prob_head= prob_head*0.6 + prob_tail*0.4
+    new_prob_tail= prob_head*0.4 + prob_tail*0.7
+
+print("probability of getting head after ",iterations, "tosses is: ",new_prob_head)
+print("probability of getting tail after ",iterations, "tosses is: ",new_prob_tail)
+
+prob_head=1/2
+prob_tail=1/2
+
+for i in range(iterations):
+    new_prob_head= prob_head*0.6 + prob_tail*0.4
+    new_prob_tail= prob_head*0.4 + prob_tail*0.7
+
+print("probability of getting head after ",iterations, "tosses is: ",new_prob_head)
+print("probability of getting tail after ",iterations, "tosses is: ",new_prob_tail)
+
+
+# probabilistic states
+
+all_portions= [7,5,4,2,6,1]
+
+portions_sum = 0
+
+for i in range(6):
+    portions_sum = portions_sum + all_portions[i]
+    
+print("total is:",portions_sum)
+print()
+one_portion = 1/portions_sum
+
+print("weight of one portion is: ",one_portion)
+print()
+
+for i in range(6):
+    print("probability of getting ",(i+1)," is ",(one_portion*all_portions[i]))
+    
+
+my_state = [0,0,0,0]
+norm_factor = 0
+
+
+for i in range(4):
+    my_state[i]= randrange(101)
+    norm_factor = norm_factor + my_state[i]
+        
+print("random values before normalization: ",my_state)
+
+for i in range(4):
+    my_state[i]= my_state[i]/norm_factor
+    
+print("random values after normalization: ",my_state)
+
+sum=0
+for i in range(4):
+    sum += my_state[i]
+    
+print("the summation of random values/states are: ",sum)
